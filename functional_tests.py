@@ -8,8 +8,16 @@ class NewVisitorTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
 
+
     def tearDown(self):
         self.browser.quit()
+
+
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
 
     def test_start_list_and_retrieve(self):
 
@@ -35,9 +43,7 @@ class NewVisitorTest(unittest.TestCase):
         input_box.send_keys(Keys.ENTER)
         time.sleep(1)
 
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: dunk on Shaq', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: dunk on Shaq')
 
         # there is still a text box inviting him to enter another item. He enters "take a towel to the face"
         input_box = self.browser.find_element_by_id('id_new_item')
@@ -52,13 +58,14 @@ class NewVisitorTest(unittest.TestCase):
         # the page reloads and shows both items on the list
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')    # tr for table record?
-        self.assertIn('1: dunk on Shaq', [row.text for row in rows])
-        self.assertIn('2: take a towel to the face', [row.text for row in rows])
+        self.check_row_in_table('1: dunk on Shaq')
+        self.check_row_in_table('2: take a towel to the face')
 
         # He sees a special url and some instructions about how it will link back to this list
         self.fail("finish the test, ya dingus!")
 
         # Arvudas follows that link and sees his to-do list
+
 
 if __name__ == '__main__':
         unittest.main(warnings='ignore')
