@@ -58,8 +58,8 @@ class NewVisitorTest(unittest.TestCase):
         # the page reloads and shows both items on the list
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')    # tr for table record?
-        self.check_row_in_table('1: dunk on Shaq')
-        self.check_row_in_table('2: take a towel to the face')
+        self.check_for_row_in_list_table('1: dunk on Shaq')
+        self.check_for_row_in_list_table('2: take a towel to the face')
 
         # He sees a special url and some instructions about how it will link back to this list
         self.fail("finish the test, ya dingus!")
