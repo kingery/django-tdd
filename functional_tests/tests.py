@@ -1,9 +1,9 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -22,7 +22,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_start_list_and_retrieve(self):
 
         # Arvydas goes to the to-do list app web address
-        self.browser.get('http://localhost:8000')    # get http resource
+        self.browser.get(self.live_server_url)    # get http resource
 
         # Arvydas notices that the name "To-Do" is in the page title and header
         self.assertIn('To-Do', self.browser.title)        # browser attributes are of loaded page
@@ -65,7 +65,3 @@ class NewVisitorTest(unittest.TestCase):
         self.fail("finish the test, ya dingus!")
 
         # Arvudas follows that link and sees his to-do list
-
-
-if __name__ == '__main__':
-        unittest.main(warnings='ignore')
