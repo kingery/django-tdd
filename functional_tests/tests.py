@@ -106,7 +106,7 @@ class NewVisitorTest(LiveServerTestCase):
         # jeff gets his own url
         jeff_list_url = self.browser.current_url
         self.assertRegex(jeff_list_url, '/lists/.+')
-        self.assetNotEqual(jeff_list_url, arvydas_list_url)
+        self.assertNotEqual(jeff_list_url, arvydas_list_url)
 
         #  again there is no trace of arvydas's list
         page_text = self.browser.find_element_by_tag_name('body').text

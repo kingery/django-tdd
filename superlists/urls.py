@@ -21,5 +21,6 @@ from lists import views
 urlpatterns = [
     url(r'^$', views.home_page, name='home_page'),
     url(r'^lists/new$', views.new_list, name='new_list'),
-    url(r'^lists/this-is-the-list/$', views.view_list, name='view_list'),
+    url(r'^lists/(\d+)/$', views.view_list, name='view_list'), # adding capture group adds additional arg to view_list()
+    url(r'^lists/(\d+)/add_item$', views.add_item, name='add_item'),
 ]
