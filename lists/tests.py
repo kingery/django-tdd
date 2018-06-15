@@ -14,7 +14,7 @@ class HomePageTest(TestCase):
 
 
     def test_save_post_data(self):
-        response = self.client.post('/', data={'item_text': 'A new list item'})
+        response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
 
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
@@ -22,10 +22,8 @@ class HomePageTest(TestCase):
 
 
     def test_redirect_after_post(self):
-        response = self.client.post('/', data={'item_text': 'A new list item'})
-
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/lists/this-is-the-list/')
+        response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
+        self.assertRedirects(response, '/lists/this-is-the-list/')
 
 
     def test_only_save_item_when_necessary(self):
@@ -42,6 +40,20 @@ class ListViewTest(TestCase):
 
     def test_displays_all_items(self):
         pass
+
+
+class NewListTest(TestCase):
+
+    def test_save_post_data(self):
+        self.client.post('/lists/new', data={'item_text': 'A new list item'})
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new list item')
+
+
+    def test_redirect_after_past(self):
+        response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
+        self.assertRedirects(response, '/lists/this-is-the-list/')
 
 
 class ItemModelTest(TestCase):
