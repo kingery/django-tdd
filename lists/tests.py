@@ -8,11 +8,6 @@ from lists.models import Item
 
 class HomePageTest(TestCase):
 
-    def test_root_url_resolves_to_home_page_view(self):
-        found = resolve('/')
-        self.assertEqual(found.func, home_page)
-
-
     def test_home_page_returns_correct_html(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
@@ -30,7 +25,7 @@ class HomePageTest(TestCase):
         response = self.client.post('/', data={'item_text': 'A new list item'})
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/lists/this-is-the-list/')
 
 
     def test_only_save_item_when_necessary(self):
@@ -38,14 +33,15 @@ class HomePageTest(TestCase):
         self.assertEqual(Item.objects.count(), 0)
 
 
-    def test_display_all_list_items(self):
-        Item.objects.create(text='item text 1')
-        Item.objects.create(text='item text 2')
+class ListViewTest(TestCase):
 
-        response = self.client.get('/')
+    def test_uses_list_template(self):
+        response = self.client.get('/lists/this-is-the-list/')
+        self.assertTemplateUsed(response, 'list.html')
 
-        self.assertIn('item text 1', response.content.decode())
-        self.assertIn('item text 2', response.content.decode())
+
+    def test_displays_all_items(self):
+        pass
 
 
 class ItemModelTest(TestCase):

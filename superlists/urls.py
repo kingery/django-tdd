@@ -19,6 +19,6 @@ from django.contrib import admin
 from lists import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', views.home_page, name='home_page')
+    url(r'^$', views.home_page, name='home_page'),
+    url(r'^lists/this-is-the-list/$', views.view_list, name='view_list'),
 ]
